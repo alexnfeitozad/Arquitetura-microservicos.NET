@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npm run build --prefix obsidia-reader",
+  "outputDirectory": "obsidia-reader/dist",
+  "installCommand": "npm install --prefix obsidia-reader",
+  "framework": "vite"
+}
