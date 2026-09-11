@@ -66,3 +66,4 @@ body { background: #f8f8fc; background-image: radial-gradient(circle at 87% 5%, 
 .hero-art .art-label { color: #6fd9e7; }
 .primary-button { background: linear-gradient(100deg, #6957d9, #3f2b89); box-shadow: 5px 5px 0 #ef7d32; }
 .primary-button:hover { box-shadow: 2px 2px 0 #ef7d32; }
+.source-badge { display: inline-block; margin-top: 18px; padding: 7px 10px; border-radius: 999px; background: var(--paper-deep); color: var(--muted); font: 9px var(--mono); }

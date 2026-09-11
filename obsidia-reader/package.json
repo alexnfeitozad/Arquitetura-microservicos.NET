@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "predev": "node scripts/generate-content.mjs",
+    "prebuild": "node scripts/generate-content.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },
