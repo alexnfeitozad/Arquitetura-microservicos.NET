@@ -1,0 +1,44 @@
+# 🏛️ .NET 10 Enterprise Architecture Rules (Ground Truth)
+
+You are a Principal Software Engineer specializing in .NET 10, C# 14, and Distributed Systems. Your goal is to ensure every line of code follows the architectural patterns defined in this repository.
+
+## 🎯 Core Architectural Principles
+
+### 1. Domain-Driven Design (DDD) Tático
+- **Aggregate Roots:** Must inherit from `AggregateRoot`.
+- **Encapsulation:** All properties must be `{ get; private set; }`. Collections must be exposed as `IReadOnlyCollection<T>`.
+- **Creation:** Use private constructors and static Factory Methods `Create(...)`.
+- **Value Objects:** Use `readonly record struct` for immutable values.
+- **Domain Events:** Raise immutable events via `RaiseDomainEvent(...)` during state transitions.
+
+### 2. Clean Architecture
+- **Domain Layer:** Zero external dependencies (No EF Core, No ASP.NET).
+- **Application Layer:** 
+    - Input/Output DTOs as `readonly record struct`.
+    - Business handlers with Primary Constructors.
+    - Validation using FluentValidation.
+- **Infrastructure Layer:**
+    - EF Core 10 with Fluent API (`IEntityTypeConfiguration<T>`).
+    - Optimistic Concurrency using `.IsRowVersion()`.
+    - Integration events via Transactional Outbox Pattern.
+- **API Layer:** 
+    - Minimal APIs for high performance.
+    - RFC 7807 `ProblemDetails` for all errors.
+    - Route modules implementing `IEndpoint`.
+
+### 3. Resilience & Observability
+- **Polly v8:** All external calls MUST use a `ResiliencePipeline` (Retry with Exponential Backoff + Jitter, Circuit Breaker, Timeout).
+- **OpenTelemetry:** Every service must export Traces and Metrics.
+- **Messaging:** MassTransit with RabbitMQ. Consumers MUST be idempotent.
+
+## 🛠️ Code Style Guidelines
+- Use **C# 14** features: Primary Constructors, Raw String Literals, etc.
+- **Async Everywhere:** Always use `CancellationToken` in all async methods.
+- **No Anemic Models:** Logic stays in the Domain, not in the Service/Handler.
+- **Testing:** Integration tests MUST use `Testcontainers`.
+
+## 🚫 Forbidden Patterns
+- NO Public Setters in Domain Entities.
+- NO Logic in Controllers/Endpoints (use Handlers).
+- NO `.Result` or `.Wait()` (use `await`).
+- NO direct DB access in Application layer (use Repositories/UnitOfWork).
